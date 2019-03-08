@@ -21,18 +21,18 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTClaimsSet.Builder;
 
 public class JwtHelper {
-  public static String createTinyDriveToken(String sub, String name, Boolean scopeUser, String privateKey)
+  public static String createTinyDriveToken(String username, String fullname, Boolean scopeUser, String privateKey)
       throws IOException, GeneralSecurityException, JOSEException {
     Builder builder = new JWTClaimsSet.Builder();
 
     // Scopes the path to a specific user directory
     if (scopeUser) {
-      builder.claim("https://claims.tiny.cloud/drive/root", "/" + sub);
+      builder.claim("https://claims.tiny.cloud/drive/root", "/" + username);
     }
 
     JWTClaimsSet claims = builder
-      .subject(sub)
-      .claim("name", name)
+      .subject(username)
+      .claim("name", fullname)
       .issueTime(getDeltaTime(0))
       .expirationTime(getDeltaTime(10))
       .build();

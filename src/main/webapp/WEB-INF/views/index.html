@@ -1,12 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-
-<title>...</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/assets/css/app.css">
+  </head>
 <body>
-  <h1>Hello World example</h1>
+<form method="post" action="/login">
   <p th:text="${message}"></p>
+
+  <p>Login with the user/passwords available in the config.js file</p>
+
+  <div>
+    <label for="login">User:</label>
+    <input type="text" id="username" name="username" value="johndoe">
+  </div>
+
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" value="password">
+  </div>
+
+  <input type="submit" value="Login">
+</form>
 </body>
 </html>
