@@ -2,6 +2,7 @@
 .vscode
 .classpath
 .project
+bin/
 target/
 *.class
 *.jar

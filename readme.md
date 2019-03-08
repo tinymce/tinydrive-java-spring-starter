@@ -4,7 +4,7 @@ This project will help you get started with Tiny Drive and allow you to play aro
 
 ## Pre requirements
 
-Java 8+ and Maven 3.5.2+
+Java 10+ and Maven 3.5.2+
 
 ## Getting started steps
 
