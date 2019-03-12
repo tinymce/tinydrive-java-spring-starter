@@ -16,3 +16,5 @@ tinydrive:
     - username: janedoe
       password: password
       fullname: Jane Doe
+
+spring.devtools.restart.additional-paths: ./src/main

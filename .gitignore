@@ -1,8 +1,11 @@
 .settings
-.vscode
+.vscode/
 .classpath
 .project
+.gradle/
+gradle/
 bin/
+build/
 target/
 *.class
 *.jar
@@ -13,3 +16,5 @@ target/
 *.key
 .idea/
 .eclipse
+gradlew
+gradlew.bat

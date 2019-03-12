@@ -4,7 +4,7 @@ This project will help you get started with Tiny Drive and allow you to play aro
 
 ## Pre requirements
 
-Java 10+ and Maven 3.5.2+
+Java 10+ and Gradle 4+
 
 ## Getting started steps
 
@@ -16,7 +16,7 @@ These are the steps needed to get this project running on your machine:
 $ git clone git@github.com:tinymce/tinydrive-java-spring-starter.git
 ```
 
-### 2. Change the `apiKey` in `tinydrive-java-spring-starter/application.yml`
+### 2. Change the `apiKey` in `tinydrive-java-spring-startersrc/main/resources/application.yml`
 
 You get the api key from the `API Key Manager` account manager at http://tiny.cloud.
 
@@ -28,7 +28,7 @@ You get the private RSA key from the `JWT Key Manager` account manager at http:/
 
 ```
 $ cd tinydrive-java-spring-starter
-$ mvn spring-boot:run
+$ gradle bootRun
 ```
 
 ### 5. Open the example project at http://localhost:3000
