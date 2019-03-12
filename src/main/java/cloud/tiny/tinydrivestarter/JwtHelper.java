@@ -20,29 +20,35 @@ import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTClaimsSet.Builder;
 
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.openssl.PEMDecryptorProvider;
+import org.bouncycastle.openssl.PEMEncryptedKeyPair;
+import org.bouncycastle.openssl.PEMKeyPair;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
+
 public class JwtHelper {
   public static String createTinyDriveToken(String username, String fullname, Boolean scopeUser, String privateKey)
       throws IOException, GeneralSecurityException, JOSEException {
     Builder builder = new JWTClaimsSet.Builder();
 
-    // Scopes the path to a specific user directory
+    // When this is set the user will only be able to manage and see files in the specified root
+    // directory. This makes it possible to have a dedicated home directory for each user.
     if (scopeUser) {
       builder.claim("https://claims.tiny.cloud/drive/root", "/" + username);
     }
 
-    JWTClaimsSet claims = builder
-      .subject(username)
-      .claim("name", fullname)
-      .issueTime(getDeltaTime(0))
-      .expirationTime(getDeltaTime(10))
-      .build();
+    JWTClaimsSet claims = builder.subject(username).claim("name", fullname).issueTime(getDeltaTime(0))
+        .expirationTime(getDeltaTime(10)).build();
 
     return createToken(claims, privateKey);
   }
 
   public static String createToken(JWTClaimsSet claims, String privateKey)
       throws IOException, GeneralSecurityException, JOSEException {
-    PrivateKey pk = PrivateKeyReader.getPrivateKey(new StringReader(privateKey));
+    PrivateKey pk = readPrivateKey(privateKey, "");
+
     JWSSigner signer = new RSASSASigner(pk);
 
     Payload payload = new Payload(claims.toJSONObject());
@@ -51,6 +57,27 @@ public class JwtHelper {
     jwsObject.sign(signer);
 
     return jwsObject.serialize();
+  }
+
+  private static PrivateKey readPrivateKey(String privateKey, String keyPassword) throws IOException {
+    PEMParser keyReader = new PEMParser(new StringReader(privateKey));
+    JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+    PEMDecryptorProvider decryptionProv = new JcePEMDecryptorProviderBuilder().build(keyPassword.toCharArray());
+
+    Object keyPair = keyReader.readObject();
+    PrivateKeyInfo keyInfo;
+
+    if (keyPair instanceof PEMEncryptedKeyPair) {
+      PEMKeyPair decryptedKeyPair = ((PEMEncryptedKeyPair) keyPair).decryptKeyPair(decryptionProv);
+      keyInfo = decryptedKeyPair.getPrivateKeyInfo();
+    } else if (keyPair instanceof PEMKeyPair) {
+      keyInfo = ((PEMKeyPair) keyPair).getPrivateKeyInfo();
+    } else {
+      keyInfo = (PrivateKeyInfo) keyPair;
+    }
+
+    keyReader.close();
+    return converter.getPrivateKey(keyInfo);
   }
 
   private static Date getDeltaTime(int minutes) {

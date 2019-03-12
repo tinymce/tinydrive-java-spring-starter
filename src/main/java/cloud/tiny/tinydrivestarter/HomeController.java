@@ -1,5 +1,7 @@
 package cloud.tiny.tinydrivestarter;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -40,13 +42,18 @@ public class HomeController {
 
   @GetMapping("/editor")
   public ModelAndView editor(Model model) {
-    return Auth.getLoggedInUser(config)
-      .map(user -> {
+    Optional<Config.User> user = Auth.getLoggedInUser(config);
+
+    if (user.isPresent()) {
+      user.ifPresent(u -> {
         model.addAttribute("apiKey", this.config.getApiKey());
-        model.addAttribute("fullname", user.getFullName());
-        return new ModelAndView("editor");
-      })
-      .orElse(new ModelAndView("redirect:/"));
+        model.addAttribute("fullname", u.getFullName());
+      });
+
+      return new ModelAndView("editor");
+    } else {
+      return new ModelAndView("redirect:/");
+    }
   }
 
   @GetMapping("/logout")

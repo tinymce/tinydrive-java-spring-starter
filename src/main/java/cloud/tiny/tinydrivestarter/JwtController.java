@@ -7,11 +7,13 @@ import java.security.GeneralSecurityException;
 import javax.servlet.http.HttpSession;
 
 import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.util.StandardCharset;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -49,17 +51,8 @@ public class JwtController {
 
   private String getPrivateKey() throws IOException{
     Resource resource = context.getResource("classpath:private.key");
-    String privateKey = getString(resource.getInputStream());
+    String privateKey = StreamUtils.copyToString(resource.getInputStream(), StandardCharset.UTF_8);
     return privateKey;
-  }
-
-  private String getString(InputStream is) throws IOException {
-    int ch;
-    StringBuilder sb = new StringBuilder();
-    while ((ch = is.read()) != -1) {
-        sb.append((char) ch);
-    }
-    return sb.toString();
   }
 
   class TokenResult {
