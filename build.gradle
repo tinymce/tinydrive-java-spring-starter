@@ -1,9 +1,8 @@
 plugins {
-    id "org.springframework.boot" version "2.0.1.RELEASE"
+    id "org.springframework.boot" version "2.1.3.RELEASE"
 }
 
 apply plugin: 'java'
-apply plugin: 'maven'
 
 group = 'cloud.tiny.tinydrivestarter'
 version = '0.0.1-SNAPSHOT'
