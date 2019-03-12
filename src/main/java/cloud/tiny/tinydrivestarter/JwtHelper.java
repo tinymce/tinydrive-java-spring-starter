@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -28,7 +29,10 @@ import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 
-public class JwtHelper {
+public final class JwtHelper {
+  private JwtHelper() {
+  }
+
   public static String createTinyDriveToken(String username, String fullname, Boolean scopeUser, String privateKey)
       throws IOException, GeneralSecurityException, JOSEException {
     Builder builder = new JWTClaimsSet.Builder();
@@ -81,7 +85,6 @@ public class JwtHelper {
   }
 
   private static Date getDeltaTime(int minutes) {
-    LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(minutes, ChronoUnit.MINUTES));
-    return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return Date.from(Instant.now().plus(Duration.of(minutes, ChronoUnit.MINUTES)));
   }
 }

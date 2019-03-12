@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @EnableAutoConfiguration
-public class HomeController {
+public final class HomeController {
   private final Config config;
 
   @Autowired
@@ -46,7 +46,7 @@ public class HomeController {
 
     if (user.isPresent()) {
       user.ifPresent(u -> {
-        model.addAttribute("apiKey", this.config.getApiKey());
+        model.addAttribute("apiKey", config.getApiKey());
         model.addAttribute("fullname", u.getFullName());
       });
 

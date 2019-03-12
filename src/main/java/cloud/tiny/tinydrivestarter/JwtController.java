@@ -20,7 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 @RestController
 @EnableAutoConfiguration
-public class JwtController {
+public final class JwtController {
   private final Config config;
 
   @Autowired
@@ -33,12 +33,7 @@ public class JwtController {
 
   @PostMapping("/jwt")
   public TokenResult index() throws GeneralSecurityException, JOSEException, IOException {
-    Config.User user = Auth.getLoggedInUser(this.config).orElse(null);
-
-    if (user == null) {
-      new GeneralSecurityException("User is not logged in.");
-    }
-  
+    Config.User user = Auth.getLoggedInUser(this.config).orElseThrow(() -> new GeneralSecurityException("User is not logged in."));
     String token = JwtHelper.createTinyDriveToken(user.getUserName(), user.getFullName(), config.isScopedUser(), this.getPrivateKey());
     return new TokenResult(token);
   }
@@ -50,11 +45,10 @@ public class JwtController {
 
   private String getPrivateKey() throws IOException{
     Resource resource = context.getResource("classpath:private.key");
-    String privateKey = StreamUtils.copyToString(resource.getInputStream(), StandardCharset.UTF_8);
-    return privateKey;
+    return StreamUtils.copyToString(resource.getInputStream(), StandardCharset.UTF_8);
   }
 
-  class TokenResult {
+  static class TokenResult {
     private final String token;
 
     public TokenResult(String token) {

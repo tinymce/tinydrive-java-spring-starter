@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "tinydrive")
-public class Config {
+public final class Config {
   private List<User> users = new ArrayList<User>();
   private boolean scopeUser;
   private String apiKey;
 
   public List<User> getUsers() {
-    return this.users;
+    return users;
   }
 
   public void setUsers(List<User> users) {
@@ -22,7 +22,7 @@ public class Config {
   }
 
   public boolean isScopedUser() {
-    return this.scopeUser;
+    return scopeUser;
   }
 
   public void setScopeUser(boolean scopeUser) {
@@ -30,14 +30,14 @@ public class Config {
   }
 
   public String getApiKey() {
-    return this.apiKey;
+    return apiKey;
   }
 
   public void setApiKey(String apiKey) {
     this.apiKey = apiKey;
   }
 
-  static class User {
+  static final class User {
     private String username;
     private String password;
     private String fullname;
@@ -51,7 +51,7 @@ public class Config {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
@@ -59,7 +59,7 @@ public class Config {
     }
 
     public String getFullName() {
-      return this.fullname;
+      return fullname;
     }
 
     public void setFullName(String fullname) {

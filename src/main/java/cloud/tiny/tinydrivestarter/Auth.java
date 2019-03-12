@@ -7,7 +7,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-public class Auth {
+public final class Auth {
+  private Auth() {
+  }
+
   public static boolean loginUser(Config config, String username, String password) {
     Optional<Config.User> user = findUser(config, username, password);
 
