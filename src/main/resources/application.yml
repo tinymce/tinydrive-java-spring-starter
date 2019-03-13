@@ -1,0 +1,20 @@
+server:
+  port: 3000
+
+tinydrive:
+  # Replace this with your api key from the "API Key Manager" at the tiny.cloud account page
+  apiKey: your-api-key
+
+  # If this is enabled the root of Tiny Drive will be within a directory named as the user login
+  scopeUser: false
+
+  # This is the fake database that the login authenticates against
+  users:
+    - username: johndoe
+      password: password
+      fullname: John Doe
+    - username: janedoe
+      password: password
+      fullname: Jane Doe
+
+spring.devtools.restart.additional-paths: ./src/main
