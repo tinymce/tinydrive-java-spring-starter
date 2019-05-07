@@ -1,8 +1,8 @@
 # Tiny Drive Java Spring Starter Project
 
-This project will help you get started with Tiny Drive and allow you to play around with it's features.
+This project will help you get started with Tiny Drive and allow you to play around with its features.
 
-## Pre requirements
+## Prerequisites
 
 Java 10+ and Gradle 4+
 
@@ -18,7 +18,7 @@ $ git clone git@github.com:tinymce/tinydrive-java-spring-starter.git
 
 ### 2. Change the `apiKey` in `tinydrive-java-spring-startersrc/main/resources/application.yml`
 
-You get the api key from the `API Key Manager` account manager at http://tiny.cloud.
+You get the API key from the `API Key Manager` account manager at http://tiny.cloud.
 
 ### 3. Create a `tinydrive-java-spring-starter/src/main/resources/private.key` file containing your generated private RSA key
 
