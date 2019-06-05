@@ -1,8 +1,8 @@
 # Tiny Drive Java Spring Starter Project
 
-This project helps you get started with Tiny Drive and allows you to play around with its features.
+This project will help you get started with Tiny Drive and allow you to play around with its features.
 
-## Pre requirements
+## Prerequisites
 
 Java 10+ and Gradle 4+
 
